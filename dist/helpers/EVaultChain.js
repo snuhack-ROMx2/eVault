@@ -1,21 +1,22 @@
-import { BlockType, ChainErrors } from "../../types";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import Block from "./Block.js";
 import Chain from "../Schema/Chain.js";
 import mongoose from "mongoose";
 import secret from '../secret.json' assert { type: "json" };
-
-export default class EVaultChain {
-    public static eVault = new EVaultChain();
-
-    chain: Block[] = [];
-    chainImpureCb: CallableFunction | null = null;
-
+class EVaultChain {
     constructor() {
-
+        this.chain = [];
+        this.chainImpureCb = null;
     }
-
-    addBlock(block: Block): true | ChainErrors {
-
+    addBlock(block) {
         /*
             - Detect if chain has been altered anywhere,
             - if impure, no more blocks can be added unless the issue is fixed,
@@ -25,30 +26,23 @@ export default class EVaultChain {
         if (!pureChain) {
             if (this.chainImpureCb)
                 this.chainImpureCb();
-
             return "[error: chain impure (breach suspected)]";
         }
-
         const prevBlockHash = this.chain[this.chain.length - 1].hash;
-
         if (block.prevBlockHash !== prevBlockHash)
             return "[rejected: invalid previous block]";
-
         if (!this.hashDesignIsValid(block.hash))
             return "[rejected: invalid hash]";
-
         this.chain.push(block);
         Chain.insertMany([{
-            id: block.id,
-            timestamp: block.timestamp,
-            prevBlockHash: block.prevBlockHash,
-            nonce: block.nonce,
-            data: block.data,
-        }]);
-
+                id: block.id,
+                timestamp: block.timestamp,
+                prevBlockHash: block.prevBlockHash,
+                nonce: block.nonce,
+                data: block.data,
+            }]);
         return true;
     }
-
     chainIsPure() {
         let isImpure = false;
         for (let i = 1; i < this.chain.length; i++) {
@@ -59,60 +53,50 @@ export default class EVaultChain {
         }
         return !isImpure;
     }
-
-    hashDesignIsValid(hash: string) {
+    hashDesignIsValid(hash) {
         const validator = new RegExp('^00000', 'g');
         return validator.test(hash);
     }
-
     initDb() {
         mongoose.set('strictQuery', false);
-        mongoose.connect(secret.DB, async e => {
-            if (e) console.log(`[err: ${e}]`);
+        mongoose.connect(secret.DB, (e) => __awaiter(this, void 0, void 0, function* () {
+            if (e)
+                console.log(`[err: ${e}]`);
             else {
                 console.log('[connected to DB]');
-
-                const chainDb = await Chain.find({}).sort('timestamp');
-
+                const chainDb = yield Chain.find({}).sort('timestamp');
                 if (chainDb.length == 0) {
                     const genesisBlock = this.genesis();
                     Chain.insertMany([{
-                        id: genesisBlock.id,
-                        timestamp: genesisBlock.timestamp,
-                        prevBlockHash: genesisBlock.prevBlockHash,
-                        nonce: genesisBlock.nonce,
-                        data: genesisBlock.data,
-                    }]);
-
+                            id: genesisBlock.id,
+                            timestamp: genesisBlock.timestamp,
+                            prevBlockHash: genesisBlock.prevBlockHash,
+                            nonce: genesisBlock.nonce,
+                            data: genesisBlock.data,
+                        }]);
                     return;
                 }
-
                 for (let blockData of chainDb) {
-                    const block = new Block(
-                        blockData.data as BlockType, 
-                        blockData.prevBlockHash as string
-                    ).initOtherData({
-                        id: blockData.id as string,
-                        timestamp: blockData.timestamp as number,
-                        nonce: blockData.nonce as number,
+                    const block = new Block(blockData.data, blockData.prevBlockHash).initOtherData({
+                        id: blockData.id,
+                        timestamp: blockData.timestamp,
+                        nonce: blockData.nonce,
                     });
-
                     this.chain.push(block);
                 }
             }
-        });
+        }));
         return this;
     }
-
-    private genesis() {
+    genesis() {
         const genesisBlock = new Block({
             heading: "Genesis",
             details: "--N/A--",
             fileName: "--N/A--",
         }, '--N/A--');
-
         this.chain.push(genesisBlock);
-
         return genesisBlock;
     }
 }
+EVaultChain.eVault = new EVaultChain();
+export default EVaultChain;

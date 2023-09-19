@@ -1,10 +1,10 @@
 {
-  "name": "blockchain",
-  "version": "1.0.0",
+  "name": "evault",
+  "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tsc && node ./dist/index.js",
     "start": "node ./dist/index.js"
   },
   "keywords": [],
@@ -16,10 +16,7 @@
   },
   "dependencies": {
     "@types/node": "^20.6.2",
-    "discord.js": "^13.12.0",
     "mongoose": "^6.8.4",
-    "redis": "^4.5.1",
-    "ts-node": "^10.9.1",
     "uuid": "^9.0.0"
   }
 }
