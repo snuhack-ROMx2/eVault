@@ -17,6 +17,9 @@
   "dependencies": {
     "@types/node": "^20.6.2",
     "mongoose": "^6.8.4",
+    "plugboard.io": "^0.0.6",
+    "socket.io": "^4.7.2",
     "uuid": "^9.0.0"
-  }
+  },
+  "type": "module"
 }

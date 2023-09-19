@@ -1,5 +1,5 @@
 import { createHash } from "crypto";
-import { BlockType } from "../../types";
+import { BlockType } from "../../types.js";
 import { v4 } from 'uuid';
 
 export default class Block {
@@ -17,10 +17,14 @@ export default class Block {
     }
 
     get hash() {
-        const blockStr = JSON.stringify(this);
+        const blockStr = this.toString;
         const hash = createHash('SHA256');
         hash.update(blockStr).end();
         return hash.digest('hex');
+    }
+
+    get toString() {
+        return JSON.stringify(this);
     }
 
     initOtherData(otherData: { id: string, timestamp: number, nonce: number }) {

@@ -1,6 +1,11 @@
-import Block from "./helpers/Block.js";
 import EVaultChain from "./helpers/EVaultChain.js";
+import { Plugboard } from "plugboard.io";
 
+export const EVault = new EVaultChain();
 
-const Chain = new EVaultChain().initDb();
-Chain;
+const plugboard = new Plugboard('dist/sockets', { 
+    cors: { origin: "*" },
+    maxHttpBufferSize: 1e7,
+});
+
+plugboard.start(3000, () => console.log('[server started]'));

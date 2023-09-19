@@ -1,4 +1,4 @@
-import { BlockType, ChainErrors } from "../../types";
+import { BlockType, ChainErrors } from "../../types.js";
 import Block from "./Block.js";
 import Chain from "../Schema/Chain.js";
 import mongoose from "mongoose";
@@ -11,7 +11,7 @@ export default class EVaultChain {
     chainImpureCb: CallableFunction | null = null;
 
     constructor() {
-
+        this.initDb();
     }
 
     addBlock(block: Block): true | ChainErrors {
@@ -65,7 +65,7 @@ export default class EVaultChain {
         return validator.test(hash);
     }
 
-    initDb() {
+    private initDb() {
         mongoose.set('strictQuery', false);
         mongoose.connect(secret.DB, async e => {
             if (e) console.log(`[err: ${e}]`);
@@ -107,9 +107,9 @@ export default class EVaultChain {
     private genesis() {
         const genesisBlock = new Block({
             heading: "Genesis",
-            details: "--N/A--",
-            fileName: "--N/A--",
-        }, '--N/A--');
+            details: "N/A",
+            fileName: "N/A",
+        }, 'N/A');
 
         this.chain.push(genesisBlock);
 
