@@ -3,13 +3,12 @@ import { BlockType } from "../../types.js";
 import { writeFile, readdir } from "fs/promises";
 import Block from "../helpers/Block.js";
 import { EVault } from "../index.js";
-import { v4 } from "uuid";
 import Pending from "../Schema/Pending.js";
 
 const NO_FILE = 'N/A'
 const FILE_LOC = '../assets/docs'
 
-export default class extends ASocket<[BlockType, Buffer|undefined]> {
+export default class extends ASocket<[data: BlockType, file: Buffer|undefined]> {
     async run() {
         if (!this.args) return;
 
@@ -36,13 +35,7 @@ export default class extends ASocket<[BlockType, Buffer|undefined]> {
             }
         }
 
-        await Pending.insertMany([{
-            id: block.id,
-            timestamp: block.timestamp,
-            prevBlockHash: block.prevBlockHash,
-            nonce: block.nonce,
-            data: block.data,
-        }]);
+        await Pending.insertMany([block.asJSON]);
 
         this.io?.emit('data-uploaded');
     }

@@ -15,6 +15,7 @@ class EVaultChain {
     constructor() {
         this.chain = [];
         this.chainImpureCb = null;
+        this.initDb();
     }
     addBlock(block) {
         /*
@@ -34,13 +35,7 @@ class EVaultChain {
         if (!this.hashDesignIsValid(block.hash))
             return "[rejected: invalid hash]";
         this.chain.push(block);
-        Chain.insertMany([{
-                id: block.id,
-                timestamp: block.timestamp,
-                prevBlockHash: block.prevBlockHash,
-                nonce: block.nonce,
-                data: block.data,
-            }]);
+        Chain.insertMany([block.asJSON]);
         return true;
     }
     chainIsPure() {
@@ -67,13 +62,7 @@ class EVaultChain {
                 const chainDb = yield Chain.find({}).sort('timestamp');
                 if (chainDb.length == 0) {
                     const genesisBlock = this.genesis();
-                    Chain.insertMany([{
-                            id: genesisBlock.id,
-                            timestamp: genesisBlock.timestamp,
-                            prevBlockHash: genesisBlock.prevBlockHash,
-                            nonce: genesisBlock.nonce,
-                            data: genesisBlock.data,
-                        }]);
+                    Chain.insertMany([genesisBlock.asJSON]);
                     return;
                 }
                 for (let blockData of chainDb) {
@@ -91,9 +80,9 @@ class EVaultChain {
     genesis() {
         const genesisBlock = new Block({
             heading: "Genesis",
-            details: "--N/A--",
-            fileName: "--N/A--",
-        }, '--N/A--');
+            details: "N/A",
+            fileName: "N/A",
+        }, 'N/A');
         this.chain.push(genesisBlock);
         return genesisBlock;
     }

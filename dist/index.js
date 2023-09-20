@@ -1,6 +1,6 @@
 import EVaultChain from "./helpers/EVaultChain.js";
 import { Plugboard } from "plugboard.io";
-export const Chain = new EVaultChain().initDb();
+export const EVault = new EVaultChain();
 const plugboard = new Plugboard('dist/sockets', {
     cors: { origin: "*" },
     maxHttpBufferSize: 1e7,

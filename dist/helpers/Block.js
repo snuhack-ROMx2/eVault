@@ -9,10 +9,22 @@ export default class Block {
         this.prevBlockHash = prevBlockHash;
     }
     get hash() {
-        const blockStr = JSON.stringify(this);
+        const blockStr = this.asJSON.toString();
         const hash = createHash('SHA256');
         hash.update(blockStr).end();
         return hash.digest('hex');
+    }
+    get toString() {
+        return JSON.stringify(this);
+    }
+    get asJSON() {
+        return {
+            id: this.id,
+            nonce: this.nonce,
+            timestamp: this.timestamp,
+            prevBlockHash: this.prevBlockHash,
+            data: this.data,
+        };
     }
     initOtherData(otherData) {
         this.id = otherData.id;

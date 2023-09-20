@@ -6,7 +6,15 @@ export type BlockType = {
     fileName: string,
 }
 
-export type ChainErrors = 
-    "[error: chain impure (breach suspected)]" | 
-    "[rejected: invalid previous block]" | 
+export type ChainErrors =
+    "[error: chain impure (breach suspected)]" |
+    "[rejected: invalid previous block]" |
     "[rejected: invalid hash]"
+
+export type BlockAsJSON = {
+    id: string,
+    timestamp: number,
+    prevBlockHash: string,
+    nonce: number,
+    data: BlockType,
+}

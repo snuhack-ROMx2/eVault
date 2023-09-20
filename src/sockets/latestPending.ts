@@ -12,15 +12,15 @@ export default class extends ASocket<[]> {
             return;
         }
 
-        const blockString = new Block(
-            pendingBlock.data as BlockType, 
+        const block = new Block(
+            pendingBlock.data as BlockType,
             EVault.chain[EVault.chain.length - 1].hash,
         ).initOtherData({
             id: pendingBlock.id as string,
             timestamp: pendingBlock.timestamp as number,
             nonce: pendingBlock.nonce as number,
-        }).toString;
+        });
 
-        this.socket?.emit('pendingBlockString', blockString);
+        this.socket?.emit('pendingBlockString', block.asJSON);
     }
 }

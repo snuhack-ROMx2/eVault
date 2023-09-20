@@ -38,13 +38,7 @@ export default class EVaultChain {
             return "[rejected: invalid hash]";
 
         this.chain.push(block);
-        Chain.insertMany([{
-            id: block.id,
-            timestamp: block.timestamp,
-            prevBlockHash: block.prevBlockHash,
-            nonce: block.nonce,
-            data: block.data,
-        }]);
+        Chain.insertMany([block.asJSON]);
 
         return true;
     }
@@ -76,13 +70,7 @@ export default class EVaultChain {
 
                 if (chainDb.length == 0) {
                     const genesisBlock = this.genesis();
-                    Chain.insertMany([{
-                        id: genesisBlock.id,
-                        timestamp: genesisBlock.timestamp,
-                        prevBlockHash: genesisBlock.prevBlockHash,
-                        nonce: genesisBlock.nonce,
-                        data: genesisBlock.data,
-                    }]);
+                    Chain.insertMany([genesisBlock.asJSON]);
 
                     return;
                 }
