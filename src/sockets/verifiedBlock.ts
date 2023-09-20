@@ -23,14 +23,18 @@ export default class extends ASocket<[hash: string, nonce: number]> {
 
         if (block.hash === hashProvided && EVault.hashDesignIsValid(hashProvided)) {
             const status = EVault.addBlock(block);
+
             if (typeof status === 'string') {
-                // handle error
+                this.socket?.emit('errorAddingBlock', status);
                 return;
             }
             
             this.io?.emit("newBlockAdded", block.asJSON);
         } else {
-            // handle error
+            if (block.hash !== hashProvided)
+                this.socket?.emit('errorAddingBlock', '[err: wrong nonce mined]');
+            else
+                this.socket?.emit('errorAddingBlock', '[err: hash not as per the std. design]');
         }
     }
 }
