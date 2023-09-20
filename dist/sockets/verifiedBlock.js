@@ -13,7 +13,7 @@ import Block from "../helpers/Block.js";
 import { EVault } from "../index.js";
 export default class extends ASocket {
     run() {
-        var _a;
+        var _a, _b, _c, _d;
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.args)
                 return;
@@ -27,13 +27,16 @@ export default class extends ASocket {
             if (block.hash === hashProvided && EVault.hashDesignIsValid(hashProvided)) {
                 const status = EVault.addBlock(block);
                 if (typeof status === 'string') {
-                    // handle error
+                    (_a = this.socket) === null || _a === void 0 ? void 0 : _a.emit('errorAddingBlock', status);
                     return;
                 }
-                (_a = this.io) === null || _a === void 0 ? void 0 : _a.emit("newBlockAdded", block.asJSON);
+                (_b = this.io) === null || _b === void 0 ? void 0 : _b.emit("newBlockAdded", block.asJSON);
             }
             else {
-                // handle error
+                if (block.hash !== hashProvided)
+                    (_c = this.socket) === null || _c === void 0 ? void 0 : _c.emit('errorAddingBlock', '[err: wrong nonce mined]');
+                else
+                    (_d = this.socket) === null || _d === void 0 ? void 0 : _d.emit('errorAddingBlock', '[err: hash not as per the std. design]');
             }
         });
     }
