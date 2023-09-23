@@ -8,6 +8,8 @@ const pendingSchema = new mongoose.Schema({
         heading: String,
         details: String,
         fileName: String,
+        parent: String,
+        version: Number,
     }
 });
 export default mongoose.model('pending', pendingSchema);

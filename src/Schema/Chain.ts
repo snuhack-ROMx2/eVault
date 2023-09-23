@@ -9,6 +9,8 @@ const chainSchema = new mongoose.Schema({
         heading: String,
         details: String,
         fileName: String,
+        parent: String,
+        version: Number,
     }
 });
 

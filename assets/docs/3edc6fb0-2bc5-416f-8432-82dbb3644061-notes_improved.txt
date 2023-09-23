@@ -1,0 +1,34 @@
+Q: What is Blockchain?
+1) Blockchain is a technology that securely stores data by adhering to specific protocols and utilizing cryptographic concepts.
+2) Each block stores custom data, its hash, and the hash of its preceding block.
+3) The hash follows a particular design.
+4) Each block in the chain is immutable, and if altered or tampered with, the entire chain becomes impure, preventing breaches.
+5) Blockchain is transparent, allowing anyone to view each of its blocks.
+
+Q: Why do we need a blockchain-based eVault system for legal records?
+1) To establish trust and transparency.
+2) Judges, lawyers, clients, and other stakeholders must be able to track all changes made to the records.
+
+Source: Document Management Systems (DMS) have already become a common tool for many office workers. However, issues such as lack of trust and transparency, the inability to track all changes in documents, and document duplication can be critical to the flow of ordinary documents, let alone legal ones. Blockchain, in turn, is one of the most promising technologies with the ability to solve these problems.
+
+Q: What is a hash?
+1) A hash is a mathematical function that converts input of arbitrary (random) length into an encrypted output of a fixed length.
+
+Q: What is SHA-256?
+1) SHA-256 stands for Secure Hash Algorithm 256-bit, and it is used for cryptographic security.
+2) Cryptographic hash algorithms generate irreversible and unique hashes.
+
+Q: What is Proof-of-Work?
+1) Proof of Work (PoW) describes a consensus mechanism that demands a significant amount of computing effort from a network of devices.
+
+Q: What does encryption mean?
+1) Encryption is the process of securing data by applying specific hashing algorithms to it.
+2) In blockchains, we commonly use one-way encryption (SHA256) to calculate the hash of a block and mine it.
+
+Q: What is Mining?
+1) Mining is a process in which anyone can use computational power to validate a block.
+2) Miners typically attempt to find a nonce value for the block that produces a hash with a specific design and structure.
+3) Only once a block is successfully mined can it be added to the blockchain.
+
+Q: What is a nonce?
+A nonce is a specific number stored within a block that miners attempt to discover in order to produce a hash with the required design.

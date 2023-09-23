@@ -55,7 +55,7 @@ export default class EVaultChain {
     }
 
     hashDesignIsValid(hash: string) {
-        const validator = new RegExp('^00000', 'g');
+        const validator = new RegExp('^00', 'g');
         return validator.test(hash);
     }
 
@@ -77,7 +77,7 @@ export default class EVaultChain {
 
                 for (let blockData of chainDb) {
                     const block = new Block(
-                        blockData.data as BlockType, 
+                        blockData.data as BlockType,
                         blockData.prevBlockHash as string
                     ).initOtherData({
                         id: blockData.id as string,
@@ -97,6 +97,8 @@ export default class EVaultChain {
             heading: "Genesis",
             details: "N/A",
             fileName: "N/A",
+            parent: "",
+            version: 0,
         }, 'N/A');
 
         this.chain.push(genesisBlock);

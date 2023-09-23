@@ -17,7 +17,7 @@ export default class Block {
     }
 
     get hash() {
-        const blockStr = this.asJSON.toString();
+        const blockStr = JSON.stringify(this.asJSON);
         const hash = createHash('SHA256');
         hash.update(blockStr).end();
         return hash.digest('hex');

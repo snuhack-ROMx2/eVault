@@ -8,6 +8,8 @@ const chainSchema = new mongoose.Schema({
         heading: String,
         details: String,
         fileName: String,
+        parent: String,
+        version: Number,
     }
 });
 export default mongoose.model('chain', chainSchema);

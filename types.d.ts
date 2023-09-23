@@ -4,6 +4,8 @@ export type BlockType = {
     heading: string,
     details: string,
     fileName: string,
+    parent: string,
+    version: number,
 }
 
 export type ChainErrors =

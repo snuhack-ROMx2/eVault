@@ -1,0 +1,61 @@
+signup-verify (client)
+    -userdata :: mail, name, pwd
+
+verification-error (server)
+    -[invalid mail]
+    -[username already taken]
+    -[email already taken]
+
+verify-otp (server)
+    -otp
+
+verified (client)
+
+entry-ok (server)
+    -userdata :: EntryData
+
+login (client)
+    -userdata :: LoginData
+
+login-failed (server)
+    -[invalid credentials]
+
+auto-login-failed (server)
+
+session-expired (server)
+
+get-logs (client)
+    -sessionId
+    -lastLogsId
+
+parsed-logs (server)
+    -requestedLogs :: ALog[]
+    -isLastLog
+    -filterTag?
+
+publish-log (client)
+    -log :: PublishLog
+
+new-log (server) -> broadcast
+    -log :: ALog
+    -me
+
+log-liked (client)
+    -log :: LikeLog
+
+update-like (server) -> broadcast
+    -msgId
+    -totalLikes
+    -userId
+    -action
+
+hashtag (client)
+    -topicName
+    -sessionId
+
+get-hashtag-details (client)
+    -topic
+    -sessionId
+
+hashtag-details (server)
+    -hashtagDetails :: HashtagInfo

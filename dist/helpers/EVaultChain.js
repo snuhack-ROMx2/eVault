@@ -49,7 +49,7 @@ class EVaultChain {
         return !isImpure;
     }
     hashDesignIsValid(hash) {
-        const validator = new RegExp('^00000', 'g');
+        const validator = new RegExp('^00', 'g');
         return validator.test(hash);
     }
     initDb() {
@@ -82,6 +82,8 @@ class EVaultChain {
             heading: "Genesis",
             details: "N/A",
             fileName: "N/A",
+            parent: "",
+            version: 0,
         }, 'N/A');
         this.chain.push(genesisBlock);
         return genesisBlock;
